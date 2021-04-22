@@ -1,0 +1,21 @@
+.updateFormWrapper {
+    background-color: #d5eaff;
+    padding: 2rem;
+    height: 100%;
+}
+
+.updateFormWrapper .row {
+    margin:0 !important;
+    padding-left: 10% !important;
+}
+
+
+.updateFormWrapper .form-control{
+    display: inline-block !important;
+    width: 90% !important;
+}
+
+.updateFormWrapper label{
+    width: 10%;
+    display: inline-block;
+}
