@@ -6,39 +6,27 @@ class TopicUpdate extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            grades: ['A', 'B', 'C', 'D', 'F']
+            topics: []
         }
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleGradeChange = this.handleGradeChange.bind(this);
         this.handleIdChange = this.handleIdChange.bind(this);
         this.handleNameChange = this.handleNameChange.bind(this);
     }
+
     render() {
         return (
             <div className="updateFormWrapper">
-                <h2 className="mt-3 text-info">Add or Update Student</h2>
+                <h2 className="mt-3 text-info">Add or Update Topic</h2>
                 <form className="form" onSubmit={this.handleSubmit} onReset={this.handleReset.bind(this)}>
                     <div className="form-group">
                         <label >Id </label>
                         <input name="id" className="form-control mb-1" type="number" min="1" max="9999999999"
-                            value={this.props.selectedStd.id} onChange={this.handleIdChange} required />
+                            value={this.props.selectedTopic.Top_Id} onChange={this.handleIdChange} required />
                     </div>
                     <div className="form-group">
                         <label >Name </label>
-
-                        <input placeholder="Name" name="name" type="text" className="form-control mb-1"
-                            value={this.props.selectedStd.name} onChange={this.handleNameChange} required />
-                    </div>
-                    <div className="form-group">
-                        <label >Grade </label>
-                        <select name="grade" className="form-control mb-3"
-                            onChange={this.handleGradeChange}>
-                            {this.state.grades.map(el => (
-                                <option selected={this.props.selectedStd.grade === el} value={el}>
-                                    {el}
-                                </option>
-                            ))}
-                        </select>
+                        <input placeholder="Name" type="text" className="form-control mb-1"
+                            value={this.props.selectedTopic.Top_Name} onChange={this.handleNameChange} required />
                     </div>
                     <div className="row">
                         <input value="Submit" className="btn btn-success col-7" type="submit" />
@@ -51,40 +39,32 @@ class TopicUpdate extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        this.props.updateHandler(this.props.selectedStd)
-        this.props.history.push('/student-list')
+        this.props.updateHandler(this.props.selectedTopic)
+        this.props.history.push('/topic-list')
     }
 
     handleReset() {
         this.props.selectHandler({
-            id: 0,
-            name: '',
-            grade: ''
+            Top_Id: 0,
+            Top_Name: '',
+            Course:{}
         });
     }
 
 
     handleIdChange(e) {
         this.props.selectHandler({
-            id: e.target.value,
-            name: this.props.selectedStd.name,
-            grade: this.props.selectedStd.grade
+            Top_Id: e.target.value,
+            Top_Name: this.props.selectedTopic.Top_Name,
+            Course:this.props.selectedTopic.Course
         });
     }
 
     handleNameChange(e) {
         this.props.selectHandler({
-            id: this.props.selectedStd.id,
-            name: e.target.value,
-            grade: this.props.selectedStd.grade
-        });
-    }
-
-    handleGradeChange(e) {
-        this.props.selectHandler({
-            id: this.props.selectedStd.id,
-            name: this.props.selectedStd.name,
-            grade: e.target.value
+            Top_Id: this.props.selectedTopic.Top_Id,
+            Top_Name: e.target.value,
+            Course:this.props.selectedTopic.Course
         });
     }
 }

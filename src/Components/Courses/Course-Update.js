@@ -5,37 +5,45 @@ import './CourseUpdate.css';
 class CourseUpdate extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            grades: ['A', 'B', 'C', 'D', 'F']
-        }
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleGradeChange = this.handleGradeChange.bind(this);
         this.handleIdChange = this.handleIdChange.bind(this);
         this.handleNameChange = this.handleNameChange.bind(this);
+        this.handleDurationChange = this.handleDurationChange.bind(this);
+        this.handleTopicChange = this.handleTopicChange.bind(this);
     }
+
+    componentWillMount() {
+        this.props.getAllTopics();
+    }
+
     render() {
         return (
             <div className="updateFormWrapper">
-                <h2 className="mt-3 text-info">Add or Update Student</h2>
+                <h2 className="mt-3 text-info">Add or Update Course</h2>
                 <form className="form" onSubmit={this.handleSubmit} onReset={this.handleReset.bind(this)}>
                     <div className="form-group">
                         <label >Id </label>
                         <input name="id" className="form-control mb-1" type="number" min="1" max="9999999999"
-                            value={this.props.selectedStd.id} onChange={this.handleIdChange} required />
+                            value={this.props.selectedCrs.Crs_Id} onChange={this.handleIdChange} required />
                     </div>
                     <div className="form-group">
                         <label >Name </label>
-
-                        <input placeholder="Name" name="name" type="text" className="form-control mb-1"
-                            value={this.props.selectedStd.name} onChange={this.handleNameChange} required />
+                        <input placeholder="Name" type="text" className="form-control mb-1"
+                            value={this.props.selectedCrs.Crs_Name} onChange={this.handleNameChange} required />
                     </div>
                     <div className="form-group">
-                        <label >Grade </label>
+                        <label >Duration </label>
+                        <input placeholder="Duration" type="number" className="form-control mb-1"
+                            value={this.props.selectedCrs.Crs_Duration} onChange={this.handleDurationChange} required />
+                    </div>
+                    <div className="form-group">
+                        <label >Topic </label>
                         <select name="grade" className="form-control mb-3"
-                            onChange={this.handleGradeChange}>
-                            {this.state.grades.map(el => (
-                                <option selected={this.props.selectedStd.grade === el} value={el}>
-                                    {el}
+                            onChange={this.handleTopicChange}>
+                            {
+                            this.props.topics.map(el => (
+                                <option selected={this.props.selectedCrs.Top_Id === el.Top_Id} value={el.Top_Id}>
+                                    {el.Top_Name}
                                 </option>
                             ))}
                         </select>
@@ -51,40 +59,57 @@ class CourseUpdate extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        this.props.updateHandler(this.props.selectedStd)
-        this.props.history.push('/student-list')
+        this.props.updateHandler(this.props.selectedCrs)
+        this.props.history.push('/course-list')
     }
 
     handleReset() {
         this.props.selectHandler({
-            id: 0,
-            name: '',
-            grade: ''
+            Crs_Id: 0,
+            Crs_Name: '',
+            Crs_Duration: 0,
+            Crs_Topic: {}
         });
     }
 
 
     handleIdChange(e) {
         this.props.selectHandler({
-            id: e.target.value,
-            name: this.props.selectedStd.name,
-            grade: this.props.selectedStd.grade
+            Crs_Id: e.target.value,
+            Crs_Name: this.props.selectedCrs.Crs_Name,
+            Crs_Duration: this.props.selectedCrs.Crs_Duration,
+            Top_Id: this.props.selectedCrs.Top_Id,
+            Topic: this.props.selectedCrs.Topic
         });
     }
 
     handleNameChange(e) {
         this.props.selectHandler({
-            id: this.props.selectedStd.id,
-            name: e.target.value,
-            grade: this.props.selectedStd.grade
+            Crs_Id: this.props.selectedCrs.Crs_Id,
+            Crs_Name: e.target.value,
+            Crs_Duration: this.props.selectedCrs.Crs_Duration,
+            Top_Id: this.props.selectedCrs.Top_Id,
+            Topic: this.props.selectedCrs.Topic
         });
     }
 
-    handleGradeChange(e) {
+    handleDurationChange(e) {
         this.props.selectHandler({
-            id: this.props.selectedStd.id,
-            name: this.props.selectedStd.name,
-            grade: e.target.value
+            Crs_Id: this.props.selectedCrs.Crs_Id,
+            Crs_Name: this.props.selectedCrs.Crs_Name,
+            Crs_Duration: e.target.value,
+            Top_Id: this.props.selectedCrs.Top_Id,
+            Topic: this.props.selectedCrs.Topic
+        });
+    }
+
+    handleTopicChange(e) {
+        this.props.selectHandler({
+            Crs_Id: this.props.selectedCrs.Crs_Id,
+            Crs_Name: this.props.selectedCrs.Crs_Name,
+            Crs_Duration: this.props.selectedCrs.Crs_Duration,
+            Crs_Id: e.target.value,
+            Topic: this.props.selectedCrs.Topic
         });
     }
 }

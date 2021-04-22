@@ -6,7 +6,7 @@ class Login extends Component {
         super(props)
         var uname = localStorage.getItem("username");
         if (uname != null) {
-            this.props.history.push('/student-list');
+            this.props.history.push('/courses-list');
         }
     }
     state = {
@@ -56,9 +56,9 @@ class Login extends Component {
     }
     submitForm(event) {
         event.preventDefault();
-        if (this.props.studentsNames.includes(this.state.username) && this.state.password == "123") {
+        if (this.state.username=="Abdallah" && this.state.password == "123456") {
             localStorage.setItem("username", this.state.username);
-            this.props.history.push('/student-list')
+            this.props.history.push('/courses-list')
         } else
             alert('Wrong username or password!');
     }

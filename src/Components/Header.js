@@ -19,10 +19,16 @@ class Header extends React.Component {
                             <Link to="/login" class="nav-link" onClick={this.navigate} hidden={localStorage.getItem("username") != null}> Login</Link>
                         </li>
                         <li class="nav-item">
-                            <Link to="/student-list" class="nav-link" onClick={this.navigate} hidden={localStorage.getItem("username") == null}>List</Link>
+                            <Link to="/courses-list" class="nav-link" onClick={this.navigate} hidden={localStorage.getItem("username") == null}>Courses</Link>
                         </li>
                         <li class="nav-item">
-                            <Link to="/student-update" class="nav-link" onClick={this.navigate} hidden={localStorage.getItem("username") == null}>Update</Link>
+                            <Link to="/topics-list" class="nav-link" onClick={this.navigate} hidden={localStorage.getItem("username") == null}>Topics</Link>
+                        </li>
+                        <li class="nav-item">
+                            <Link to="/course-update" class="nav-link" onClick={this.navigate} hidden={localStorage.getItem("username") == null}>Update Course</Link>
+                        </li>
+                        <li class="nav-item">
+                            <Link to="/topic-update" class="nav-link" onClick={this.navigate} hidden={localStorage.getItem("username") == null}>Update Topic</Link>
                         </li>
                     </ul>
                     <div class="my-2 my-lg-0" hidden={localStorage.getItem("username") == null}>

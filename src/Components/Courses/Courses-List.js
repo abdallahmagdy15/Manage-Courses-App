@@ -14,49 +14,48 @@ class CoursesList extends React.Component {
         super(props)
         this.delete = this.delete.bind(this)
     }
+    componentWillMount() {
+        this.props.getAllCourses();
+    }
+    componentDidUpdate(){
+        this.props.getAllCourses();
+    }
     render() {
-        const useStyles = makeStyles({
-            table: {
-                minWidth: 650,
-            },
-        });
-
-        const classes = useStyles();
-
-        if (this.props.courses.length == 0)
+        if (this.props.data.length == 0)
             return (<div className="display-1 text-center text-primary">Loading ...</div>)
-    
-            return (
-                <TableContainer component={Paper}>
-                    <Table className={classes.table} aria-label="simple table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Id</TableCell>
-                                <TableCell align="right">Name</TableCell>
-                                <TableCell align="right">Duration</TableCell>
-                                <TableCell align="right">Topic</TableCell>
+
+        return (
+            <TableContainer component={Paper}>
+                <Table className="table" style={{ minWidth: "650" }} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Id</TableCell>
+                            <TableCell align="right">Name</TableCell>
+                            <TableCell align="right">Duration</TableCell>
+                            <TableCell align="right">Topic</TableCell>
+                            <TableCell align="right">
+                            </TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {this.props.data.map((row) => (
+                            <TableRow key={row.Crs_Id}>
+                                <TableCell component="th" scope="row">
+                                    {row.Crs_Id}
+                                </TableCell>
+                                <TableCell align="right">{row.Crs_Name}</TableCell>
+                                <TableCell align="right">{row.Crs_Duration}</TableCell>
+                                <TableCell align="right">{row.Topic.Top_Name}</TableCell>
                                 <TableCell align="right">
-                                    <a className="btn btn-info mr-1" onClick={this.select.bind(this, st)}>Edit</a>
-                                    <a className="btn btn-danger" onClick={this.delete.bind(this, st.id)}>Delete</a>
+                                    <a className="btn btn-info mr-1" onClick={this.select.bind(this, row)}>Edit</a>
+                                    <a className="btn btn-danger" onClick={this.delete.bind(this, row.Crs_Id)}>Delete</a>
                                 </TableCell>
                             </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {this.props.data.map((row) => (
-                                <TableRow key={row.Crs_Id}>
-                                    <TableCell component="th" scope="row">
-                                        {row.Crs_Id}
-                                    </TableCell>
-                                    <TableCell align="right">{row.Crs_Name}</TableCell>
-                                    <TableCell align="right">{row.Crs_Duration}</TableCell>
-                                    <TableCell align="right">{row.Topic.Top_Name}</TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            );
-        )
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        );
     }
 
 
@@ -68,7 +67,7 @@ class CoursesList extends React.Component {
 
     select(st) {
         this.props.selectHandler(st);
-        this.props.history.push('/student-update');
+        this.props.history.push('/course-update');
     }
 
 }

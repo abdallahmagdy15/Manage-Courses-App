@@ -15,7 +15,7 @@ export default class App extends React.Component {
     super(props)
     this.UpdateList = this.updateCourse.bind(this);
     this.Delete = this.deleteCrs.bind(this);
-    this.setSelectedStd = this.setSelectedCrs.bind(this);
+    this.setSelectedCrs = this.setSelectedCrs.bind(this);
   }
 
   state = {
@@ -34,12 +34,12 @@ export default class App extends React.Component {
           )} path="/login" exact />
 
           <Route render={() => (
-            <CourseUpdate updateHandler={this.updateCourse}
+            <CourseUpdate getAllTopics={this.getAllTopics} topics={this.state.topics} updateHandler={this.updateCourse}
               selectedCrs={this.state.selectedCrs} selectHandler={this.setSelectedCrs} />)
           } path="/course-update" exact />
 
           <Route render={() => (
-            <CoursesList data={this.state.courses} deleteHandler={this.deleteCrs}
+            <CoursesList getAllCourses={this.getAllCourses} data={this.state.courses} deleteHandler={this.deleteCrs}
               selectHandler={this.setSelectedCrs} />
           )} path="/courses-list" exact />
 
@@ -49,7 +49,7 @@ export default class App extends React.Component {
           } path="/topic-update" exact />
 
           <Route render={() => (
-            <TopicsList data={this.state.topics} deleteHandler={this.deleteTopic}
+            <TopicsList getAllTopics={this.getAllTopics} data={this.state.topics} deleteHandler={this.deleteTopic}
               selectHandler={this.setSelectedTopic} />
           )} path="/topics-list" exact />
 
@@ -60,7 +60,7 @@ export default class App extends React.Component {
   }
 
 
-  getAllCourese = () => {
+  getAllCourses = () => {
     axios.get(`http://localhost:51853/api/courses`)
       .then(res => {
         this.setState({ courses: res.data });
@@ -135,10 +135,10 @@ export default class App extends React.Component {
     })
   }
 
-  setSelectedTopic(topic) {
+  setSelectedTopic= (topic) =>{
     this.setState({
       selectedTopic: topic
-    })
+    });
   }
 
 }
