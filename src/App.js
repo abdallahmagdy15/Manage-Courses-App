@@ -74,57 +74,51 @@ export default class App extends React.Component {
       })
   }
 
-  updateCourse(crs) {
+  updateCourse = (crs) => {
     var _crs = this.state.courses.filter(s => s.Crs_Id == crs.Crs_Id);
     //if student exits then update
     if (_crs.length > 0) {
-      axios.put(`api/courses/${crs.Crs_Id}`, { crs })
+      axios.put(`http://localhost:51853/api/courses/${crs.Crs_Id}`, crs)
         .then(res => {
-          console.log(res);
           this.setState({ courses: res.data });
         })
     }
     // if not then add as new student
     else {
-      axios.post(`http://localhost:51853/api/courses`, { crs })
+      axios.post(`http://localhost:51853/api/courses`, crs)
         .then(res => {
-          console.log(res);
           this.setState({ courses: res.data });
         })
     }
   }
 
 
-  updateTopic(topic) {
+  updateTopic = (topic) => {
     var _topic = this.state.topics.filter(s => s.Top_Id == topic.Top_Id);
     //if student exits then update
     if (_topic.length > 0) {
-      axios.put(`http://localhost:51853/api/topics/${topic.Top_Id}`, { topic })
+      axios.put(`http://localhost:51853/api/topics/${topic.Top_Id}`, topic)
         .then(res => {
-          console.log(res);
           this.setState({ topics: res.data });
         })
     }
     // if not then add as new student
     else {
-      axios.post(`http://localhost:51853/api/topics`, { topic })
+      axios.post(`http://localhost:51853/api/topics`, topic)
         .then(res => {
-          console.log(res);
           this.setState({ topics: res.data });
         })
     }
   }
 
-  deleteCrs(id) {
+  deleteCrs = (id) => {
     axios.delete(`http://localhost:51853/api/courses/${id}`).then(res => {
-      console.log(res);
       this.setState({ courses: res.data });
     })
   }
 
-  deleteTopic(id) {
+  deleteTopic = (id) => {
     axios.delete(`http://localhost:51853/api/topics/${id}`).then(res => {
-      console.log(res);
       this.setState({ topics: res.data });
     })
   }
@@ -135,7 +129,7 @@ export default class App extends React.Component {
     })
   }
 
-  setSelectedTopic= (topic) =>{
+  setSelectedTopic = (topic) => {
     this.setState({
       selectedTopic: topic
     });

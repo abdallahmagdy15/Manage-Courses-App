@@ -40,7 +40,7 @@ class TopicUpdate extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
         this.props.updateHandler(this.props.selectedTopic)
-        this.props.history.push('/topic-list')
+        this.props.history.push('/topics-list')
     }
 
     handleReset() {

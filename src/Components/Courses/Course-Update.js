@@ -39,7 +39,8 @@ class CourseUpdate extends React.Component {
                     <div className="form-group">
                         <label >Topic </label>
                         <select name="grade" className="form-control mb-3"
-                            onChange={this.handleTopicChange}>
+                            onChange={this.handleTopicChange}  required>
+                                <option selected disabled hidden>-- Select Topic --</option>
                             {
                             this.props.topics.map(el => (
                                 <option selected={this.props.selectedCrs.Top_Id === el.Top_Id} value={el.Top_Id}>
@@ -59,8 +60,12 @@ class CourseUpdate extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
+        if(this.props.selectedCrs.Top_Id==0){
+            alert("Please select a topic");
+            return;
+        }
         this.props.updateHandler(this.props.selectedCrs)
-        this.props.history.push('/course-list')
+        this.props.history.push('/courses-list')
     }
 
     handleReset() {
@@ -68,7 +73,7 @@ class CourseUpdate extends React.Component {
             Crs_Id: 0,
             Crs_Name: '',
             Crs_Duration: 0,
-            Crs_Topic: {}
+            Top_Id:0,
         });
     }
 
@@ -78,8 +83,7 @@ class CourseUpdate extends React.Component {
             Crs_Id: e.target.value,
             Crs_Name: this.props.selectedCrs.Crs_Name,
             Crs_Duration: this.props.selectedCrs.Crs_Duration,
-            Top_Id: this.props.selectedCrs.Top_Id,
-            Topic: this.props.selectedCrs.Topic
+            Top_Id: this.props.selectedCrs.Top_Id
         });
     }
 
@@ -88,8 +92,7 @@ class CourseUpdate extends React.Component {
             Crs_Id: this.props.selectedCrs.Crs_Id,
             Crs_Name: e.target.value,
             Crs_Duration: this.props.selectedCrs.Crs_Duration,
-            Top_Id: this.props.selectedCrs.Top_Id,
-            Topic: this.props.selectedCrs.Topic
+            Top_Id: this.props.selectedCrs.Top_Id
         });
     }
 
@@ -98,8 +101,7 @@ class CourseUpdate extends React.Component {
             Crs_Id: this.props.selectedCrs.Crs_Id,
             Crs_Name: this.props.selectedCrs.Crs_Name,
             Crs_Duration: e.target.value,
-            Top_Id: this.props.selectedCrs.Top_Id,
-            Topic: this.props.selectedCrs.Topic
+            Top_Id: this.props.selectedCrs.Top_Id
         });
     }
 
@@ -108,8 +110,7 @@ class CourseUpdate extends React.Component {
             Crs_Id: this.props.selectedCrs.Crs_Id,
             Crs_Name: this.props.selectedCrs.Crs_Name,
             Crs_Duration: this.props.selectedCrs.Crs_Duration,
-            Crs_Id: e.target.value,
-            Topic: this.props.selectedCrs.Topic
+            Top_Id: e.target.value
         });
     }
 }
