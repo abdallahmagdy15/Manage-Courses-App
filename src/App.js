@@ -7,8 +7,6 @@ import CourseUpdate from './Components/Courses/Course-Update';
 import CoursesList from './Components/Courses/Courses-List';
 import TopicUpdate from './Components/Topics/Topic-Update';
 import TopicsList from './Components/Topics/Topics-List';
-const { getAllCourses, updateCourse, deleteCrs } = require('./Controller/CourseDB')
-const { getAllTopics, updateTopic, deleteTopic } = require('./Controller/TopicDB')
 
 export default class App extends React.Component {
 

@@ -3,7 +3,7 @@ import axios from 'axios';
 const getAllCourses = () => {
     axios.get(`http://localhost:51853/api/courses`)
         .then(res => {
-            this.setState({ courses: res.data });
+            return res.data;
         })
 }
 
@@ -15,14 +15,14 @@ const updateCourse = (crs) => {
     if (_crs.length > 0) {
         axios.put(`http://localhost:51853/api/courses/${crs.Crs_Id}`, crs)
             .then(res => {
-                this.setState({ courses: res.data });
+                return res.data;
             })
     }
     // if not then add as new student
     else {
         axios.post(`http://localhost:51853/api/courses`, crs)
             .then(res => {
-                this.setState({ courses: res.data });
+                return res.data;
             })
     }
 }
@@ -32,7 +32,7 @@ const updateCourse = (crs) => {
 
 const deleteCrs = (id) => {
     axios.delete(`http://localhost:51853/api/courses/${id}`).then(res => {
-        this.setState({ courses: res.data });
+        return res.data;
     })
 }
 

@@ -3,7 +3,7 @@ import axios from 'axios';
 const getAllTopics = () => {
     axios.get(`http://localhost:51853/api/topics`)
         .then(res => {
-            this.setState({ topics: res.data });
+            return res.data;
         })
 }
 const updateTopic = (topic) => {
@@ -12,20 +12,20 @@ const updateTopic = (topic) => {
     if (_topic.length > 0) {
         axios.put(`http://localhost:51853/api/topics/${topic.Top_Id}`, topic)
             .then(res => {
-                this.setState({ topics: res.data });
+                return res.data;
             })
     }
     // if not then add as new student
     else {
         axios.post(`http://localhost:51853/api/topics`, topic)
             .then(res => {
-                this.setState({ topics: res.data });
+                return res.data;
             })
     }
 }
 const deleteTopic = (id) => {
     axios.delete(`http://localhost:51853/api/topics/${id}`).then(res => {
-        this.setState({ topics: res.data });
+        return res.data;
     })
 }
 
