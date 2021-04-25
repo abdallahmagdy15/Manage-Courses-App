@@ -1,6 +1,5 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -8,28 +7,40 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import { getAllTopics, deleteTopic } from '../../Controller/TopicDB'
 
 class TopicsList extends React.Component {
+    state = {
+        topics: []
+    }
     constructor(props) {
         super(props)
-        this.delete = this.delete.bind(this)
     }
 
-    componentWillMount() {
-        this.props.getAllTopics();
-    }
-    componentWillUpdate() {
-        this.props.getAllTopics();
+    componentDidMount() {
+        const _topics = this.props.location.state;
+        if (_topics != undefined)
+            this.setState({ topics: _topics })
+        else {
+            getAllTopics().then(res => {
+                this.setState({ topics: res.data })
+            })
+        }
     }
 
+    componentDidUpdate() {
+        getAllTopics().then(res => {
+            this.setState({ topics: res.data })
+        })
+    }
     render() {
 
-        if (this.props.data.length == 0)
+        if (this.state.topics.length == 0)
             return (<div className="display-1 text-center text-primary">Loading ...</div>)
 
         return (
             <TableContainer component={Paper}>
-                <Table style={{minWidth:"650"}} aria-label="simple table">
+                <Table style={{ minWidth: "650" }} aria-label="simple table">
                     <TableHead>
                         <TableRow>
                             <TableCell>Id</TableCell>
@@ -40,7 +51,7 @@ class TopicsList extends React.Component {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {this.props.data.map((row) => (
+                        {this.state.topics.map((row) => (
                             <TableRow key={row.Crs_Id}>
                                 <TableCell component="th" scope="row">
                                     {row.Top_Id}
@@ -66,15 +77,17 @@ class TopicsList extends React.Component {
     }
 
 
-    delete(id) {
+    delete = (id) => {
         var x = window.confirm("Are you sure?");
-        if (x)
-            this.props.deleteHandler(id);
+        if (x) {
+            deleteTopic(id).then(res => {
+                this.setState({ topics: res.data });
+            })
+        }
     }
 
-    select(st) {
-        this.props.selectHandler(st);
-        this.props.history.push('/topic-update');
+    select = (st) => {
+        this.props.history.push('/topic-update', st);
     }
 
 

@@ -1,32 +1,41 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import './TopicUpdate.css';
+import { updateTopic } from '../../Controller/TopicDB'
 
 class TopicUpdate extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            topics: []
+            topic: {
+                Top_Id: 0,
+                Top_Name: '',
+                Course: []
+            }
         }
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleIdChange = this.handleIdChange.bind(this);
-        this.handleNameChange = this.handleNameChange.bind(this);
+
+    }
+
+    componentDidMount() {
+        const _topic = this.props.location.state;
+        if (_topic != undefined)
+            this.setState({ topic: _topic })
     }
 
     render() {
         return (
             <div className="updateFormWrapper">
                 <h2 className="mt-3 text-info">Add or Update Topic</h2>
-                <form className="form" onSubmit={this.handleSubmit} onReset={this.handleReset.bind(this)}>
+                <form className="form" onSubmit={this.handleSubmit} onReset={this.handleReset}>
                     <div className="form-group">
                         <label >Id </label>
                         <input name="id" className="form-control mb-1" type="number" min="1" max="9999999999"
-                            value={this.props.selectedTopic.Top_Id} onChange={this.handleIdChange} required />
+                            value={this.state.topic.Top_Id} onChange={this.handleIdChange} required />
                     </div>
                     <div className="form-group">
                         <label >Name </label>
                         <input placeholder="Name" type="text" className="form-control mb-1"
-                            value={this.props.selectedTopic.Top_Name} onChange={this.handleNameChange} required />
+                            value={this.state.topic.Top_Name} onChange={this.handleNameChange} required />
                     </div>
                     <div className="row">
                         <input value="Submit" className="btn btn-success col-7" type="submit" />
@@ -37,35 +46,38 @@ class TopicUpdate extends React.Component {
         )
     }
 
-    handleSubmit(event) {
+    handleSubmit = (event) => {
         event.preventDefault();
-        this.props.updateHandler(this.props.selectedTopic)
-        this.props.history.push('/topics-list')
+        updateTopic(this.state.topic).then(res => {
+            this.props.history.push('/topics-list', res.data);
+        })
     }
 
-    handleReset() {
-        this.props.selectHandler({
-            Top_Id: 0,
-            Top_Name: '',
-            Course:{}
+    handleReset = () => {
+        this.setState({
+            topic: {
+                Top_Id: 0,
+                Top_Name: '',
+                Course: []
+            }
         });
     }
 
 
-    handleIdChange(e) {
-        this.props.selectHandler({
-            Top_Id: e.target.value,
-            Top_Name: this.props.selectedTopic.Top_Name,
-            Course:this.props.selectedTopic.Course
-        });
+    handleIdChange = (e) => {
+        this.setState(prevState => {
+            let topic = Object.assign({}, prevState.topic);
+            topic.Top_Id = parseInt(e.target.value);
+            return { topic };
+        })
     }
 
-    handleNameChange(e) {
-        this.props.selectHandler({
-            Top_Id: this.props.selectedTopic.Top_Id,
-            Top_Name: e.target.value,
-            Course:this.props.selectedTopic.Course
-        });
+    handleNameChange = (e) => {
+        this.setState(prevState => {
+            let topic = Object.assign({}, prevState.topic);
+            topic.Top_Name = e.target.value;
+            return { topic };
+        })
     }
 }
 

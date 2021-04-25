@@ -7,25 +7,36 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-const { getAllCourses, updateCourse, deleteCrs } = require('./Controller/CourseDB')
+import { getAllCourses, deleteCrs } from '../../Controller/CourseDB'
 
 class CoursesList extends React.Component {
-    state={
-        courses:[]
+    state = {
+        courses: []
     }
-    
+
     constructor(props) {
         super(props)
-        this.delete = this.delete.bind(this)
     }
-    componentWillMount() {
-        this.props.getAllCourses();
+
+    componentDidMount() {
+        const _courses = this.props.location.state;
+        if (_courses != undefined)
+            this.setState({ courses: _courses })
+        else {
+            getAllCourses().then((res) => {
+                this.setState({ courses: res.data })
+            })
+        }
     }
-    componentDidUpdate(){
-        this.props.getAllCourses();
+
+    componentDidUpdate() {
+        getAllCourses().then((res) => {
+            this.setState({ courses: res.data })
+        })
     }
+
     render() {
-        if (this.props.data.length == 0)
+        if (this.state.courses.length == 0)
             return (<div className="display-1 text-center text-primary">Loading ...</div>)
 
         return (
@@ -42,7 +53,7 @@ class CoursesList extends React.Component {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {this.props.data.map((row) => (
+                        {this.state.courses.map((row) => (
                             <TableRow key={row.Crs_Id}>
                                 <TableCell component="th" scope="row">
                                     {row.Crs_Id}
@@ -63,15 +74,17 @@ class CoursesList extends React.Component {
     }
 
 
-    delete(id) {
+    delete = (id) => {
         var x = window.confirm("Are you sure?");
-        if (x)
-            this.props.deleteHandler(id);
+        if (x) {
+            deleteCrs(id).then(res => {
+                this.setState({ courses: res.data });
+            })
+        }
     }
 
-    select(st) {
-        this.props.selectHandler(st);
-        this.props.history.push('/course-update');
+    select = (st) => {
+        this.props.history.push('/course-update', st);
     }
 
 }

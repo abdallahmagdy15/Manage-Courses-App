@@ -1,8 +1,8 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import './CourseUpdate.css';
-const { getAllCourses, updateCourse, deleteCrs } = require('../../Controller/CourseDB')
-const { getAllTopics } = require('../../Controller/TopicDB')
+import { updateCourse } from '../../Controller/CourseDB'
+import { getAllTopics } from '../../Controller/TopicDB'
 
 class CourseUpdate extends React.Component {
     state = {
@@ -18,10 +18,15 @@ class CourseUpdate extends React.Component {
         super(props);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         console.log("location state: ", this.props.location.state);
-        this.setState({ course: this.props.location.state })
-        this.setState({ topics: getAllTopics() })
+        const _course = this.props.location.state;
+        if (_course != undefined)
+            this.setState({ course: _course })
+        getAllTopics().then(res => {
+            this.setState({ topics: res.data })
+        })
+
     }
 
     render() {
@@ -72,8 +77,9 @@ class CourseUpdate extends React.Component {
             alert("Please select a topic");
             return;
         }
-        const courses = updateCourse(this.state.course)
-        this.props.history.push('/courses-list', courses)
+        updateCourse(this.state.course).then(res => {
+            this.props.history.push('/courses-list', res.data)
+        })
     }
 
     handleReset = () => {
@@ -90,9 +96,9 @@ class CourseUpdate extends React.Component {
 
     handleIdChange = (e) => {
         this.setState(prevState => {
-            let crs = Object.assign({}, prevState.course);
-            crs.Crs_Id = parseInt(e.target.value);
-            return { crs };
+            let course = Object.assign({}, prevState.course);
+            course.Crs_Id = parseInt(e.target.value);
+            return { course };
         })
     }
 

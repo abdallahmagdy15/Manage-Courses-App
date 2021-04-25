@@ -9,56 +9,25 @@ import TopicUpdate from './Components/Topics/Topic-Update';
 import TopicsList from './Components/Topics/Topics-List';
 
 export default class App extends React.Component {
-
-  state = {
-    selectedCrs: { Crs_Id: 0, Crs_Name: '', Crs_Duration: 0, Top_Id: 0, Topic: {} },
-    selectedTopic: { Top_Id: 0, Top_Name: '', Course: [] }
-  }
   render() {
     return (
       <div className="App">
         <Router>
           <Header />
-          <Route render={() => (
-            <Login />
-          )} path="/login" exact />
+          <Route component={Login} path="/login" exact />
 
-          <Route render={() => (
-            <CourseUpdate getAllTopics={getAllTopics} updateHandler={updateCourse}
-              selectedCrs={this.state.selectedCrs} selectHandler={this.setSelectedCrs} />)
-          } path="/course-update" exact />
+          <Route component={CourseUpdate} path="/course-update" exact />
 
-          <Route render={() => (
-            <CoursesList getAllCourses={getAllCourses} deleteHandler={deleteCrs}
-              selectHandler={this.setSelectedCrs} />
-          )} path="/courses-list" exact />
+          <Route component={CoursesList} path="/courses-list" exact />
 
-          <Route render={() => (
-            <TopicUpdate updateHandler={updateTopic}
-              selectedTopic={this.state.selectedTopic} selectHandler={this.setSelectedTopic} />)
-          } path="/topic-update" exact />
+          <Route component={TopicUpdate} path="/topic-update" exact />
 
-          <Route render={() => (
-            <TopicsList getAllTopics={getAllTopics} deleteHandler={deleteTopic}
-              selectHandler={this.setSelectedTopic} />
-          )} path="/topics-list" exact />
+          <Route component={TopicsList} path="/topics-list" exact />
 
           <Redirect exact from="/" to="login" />
         </Router>
       </div>
     );
-  }
-
-  setSelectedCrs = (crs) => {
-    this.setState({
-      selectedCrs: crs
-    })
-  }
-
-  setSelectedTopic = (topic) => {
-    this.setState({
-      selectedTopic: topic
-    });
   }
 
 }
