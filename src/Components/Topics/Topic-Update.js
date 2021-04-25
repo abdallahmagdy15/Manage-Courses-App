@@ -39,8 +39,8 @@ class TopicUpdate extends React.Component {
                             value={this.state.topic.Top_Name} onChange={this.handleNameChange} required />
                     </div>
                     <div className="row">
-                        <input value="Submit" className="btn btn-success col-7" type="submit" />
-                        <input value="Reset" className="btn btn-info offset-1 col-4" type="reset" />
+                        <input value="Submit" className="btn btn-info col-7" type="submit" />
+                        <input value="Reset" className="btn btn-info text-dark offset-1 col-4" style={{backgroundColor:"#d8e3e7"}} type="reset" />
                     </div>
                 </form>
             </div>
@@ -59,6 +59,8 @@ class TopicUpdate extends React.Component {
         }).catch(res => {
             console.log(res);
             // if not then add as new student
+            if (this.state.topic.Course != undefined)
+                this.state.topic.Course = undefined;
             addTopic(this.state.topic).then(res => {
                 this.props.history.push('/topics-list', res.data)
             })

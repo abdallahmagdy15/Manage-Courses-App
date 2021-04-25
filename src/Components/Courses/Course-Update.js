@@ -63,8 +63,8 @@ class CourseUpdate extends React.Component {
                         </select>
                     </div>
                     <div className="row">
-                        <input value="Submit" className="btn btn-success col-7" type="submit" />
-                        <input value="Reset" className="btn btn-info offset-1 col-4" type="reset" />
+                        <input value="Submit" className="btn btn-info col-7" type="submit" />
+                        <input value="Reset" className="btn btn-info text-dark offset-1 col-4" style={{ backgroundColor: "#d8e3e7" }} type="reset" />
                     </div>
                 </form>
             </div>
@@ -86,6 +86,8 @@ class CourseUpdate extends React.Component {
         }).catch(res => {
             console.log(res);
             // if not then add as new student
+            if (this.state.course.Topic != undefined)
+                this.state.course.Topic = undefined;
             addCourse(this.state.course).then(res => {
                 this.props.history.push('/courses-list', res.data)
             })

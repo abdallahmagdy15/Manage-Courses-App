@@ -8,7 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { getAllTopics, deleteTopic } from '../../Controller/TopicDB'
-import { CircularProgress } from "@material-ui/core";
+import { CircularProgress, ThemeProvider } from "@material-ui/core";
 
 class TopicsList extends React.Component {
     state = {
@@ -44,10 +44,10 @@ class TopicsList extends React.Component {
             )
 
         return (
-            <TableContainer component={Paper}>
+            <TableContainer className="p-5" component={Paper}>
                 <Table style={{ minWidth: "650" }} aria-label="simple table">
                     <TableHead>
-                        <TableRow>
+                        <TableRow style={{backgroundColor:"#d8e3e7"}}>
                             <TableCell>Id</TableCell>
                             <TableCell align="right">Name</TableCell>
                             <TableCell align="right">Courses</TableCell>

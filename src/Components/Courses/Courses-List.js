@@ -45,10 +45,10 @@ class CoursesList extends React.Component {
             )
 
         return (
-            <TableContainer component={Paper}>
+            <TableContainer className="p-5" component={Paper}>
                 <Table className="table" style={{ minWidth: "650" }} aria-label="simple table">
                     <TableHead>
-                        <TableRow>
+                        <TableRow  style={{backgroundColor:"#d8e3e7"}}>
                             <TableCell>Id</TableCell>
                             <TableCell align="right">Name</TableCell>
                             <TableCell align="right">Duration</TableCell>

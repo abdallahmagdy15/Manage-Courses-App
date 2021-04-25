@@ -27,7 +27,7 @@ const addCourse = (crs) => {
 }
 
 const deleteCrs = (id) => {
-    return axios.delete(`/api/courses/${id}`)
+    return instance.delete(`/api/courses/${id}`)
 }
 
 export { getAllCourses, updateCourse, deleteCrs, addCourse, getCourse };
