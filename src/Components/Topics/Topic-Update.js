@@ -1,7 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import './TopicUpdate.css';
-import { updateTopic } from '../../Controller/TopicDB'
+import { addTopic, getTopic, updateTopic } from '../../Controller/TopicDB'
 
 class TopicUpdate extends React.Component {
     constructor(props) {
@@ -18,6 +18,7 @@ class TopicUpdate extends React.Component {
 
     componentDidMount() {
         const _topic = this.props.location.state;
+        console.log("topic : ", _topic);
         if (_topic != undefined)
             this.setState({ topic: _topic })
     }
@@ -48,8 +49,19 @@ class TopicUpdate extends React.Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        updateTopic(this.state.topic).then(res => {
-            this.props.history.push('/topics-list', res.data);
+
+        getTopic(this.state.topic.Top_Id).then(res => {
+            //if student exits then update
+            this.state.topic.Course=res.data.Course;
+            updateTopic(this.state.topic).then(res => {
+                this.props.history.push('/topics-list', res.data)
+            })
+        }).catch(res => {
+            console.log(res);
+            // if not then add as new student
+            addTopic(this.state.topic).then(res => {
+                this.props.history.push('/topics-list', res.data)
+            })
         })
     }
 

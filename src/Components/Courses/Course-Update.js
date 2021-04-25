@@ -1,7 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import './CourseUpdate.css';
-import { updateCourse } from '../../Controller/CourseDB'
+import { addCourse, getCourse, updateCourse } from '../../Controller/CourseDB'
 import { getAllTopics } from '../../Controller/TopicDB'
 
 class CourseUpdate extends React.Component {
@@ -77,8 +77,18 @@ class CourseUpdate extends React.Component {
             alert("Please select a topic");
             return;
         }
-        updateCourse(this.state.course).then(res => {
-            this.props.history.push('/courses-list', res.data)
+
+        getCourse(this.state.course.Crs_Id).then(res => {
+            //if student exits then update
+            updateCourse(this.state.course).then(res => {
+                this.props.history.push('/courses-list', res.data)
+            })
+        }).catch(res => {
+            console.log(res);
+            // if not then add as new student
+            addCourse(this.state.course).then(res => {
+                this.props.history.push('/courses-list', res.data)
+            })
         })
     }
 
