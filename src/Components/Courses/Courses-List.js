@@ -8,6 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { getAllCourses, deleteCrs } from '../../Controller/CourseDB'
+import { CircularProgress } from "@material-ui/core";
 
 class CoursesList extends React.Component {
     state = {
@@ -37,7 +38,11 @@ class CoursesList extends React.Component {
 
     render() {
         if (this.state.courses.length == 0)
-            return (<div className="display-1 text-center text-primary">Loading ...</div>)
+            return (
+                <div className="display-4 text-center text-primary mt-5">
+                    <CircularProgress color="secondary" className="mr-3" />
+                Loading ...</div>
+            )
 
         return (
             <TableContainer component={Paper}>

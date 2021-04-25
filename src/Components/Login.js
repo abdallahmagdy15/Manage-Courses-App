@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 
@@ -33,7 +34,7 @@ class Login extends Component {
 
                             <div className="form-group">
                                 <div className="custom-control custom-checkbox">
-                                    <input type="checkbox" className="custom-control-input" id="customCheck1" checked/>
+                                    <input type="checkbox" className="custom-control-input" id="customCheck1" checked />
                                     <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>
                                 </div>
                             </div>
@@ -56,11 +57,20 @@ class Login extends Component {
     }
     submitForm(event) {
         event.preventDefault();
-        if (this.state.username=="Abdallah" && this.state.password == "123456") {
-            localStorage.setItem("username", this.state.username);
-            this.props.history.push('/courses-list')
-        } else
-            alert('Wrong username or password!');
+
+        axios.post('http://localhost:51853/api/Auth',
+            { username: this.state.username, password: this.state.password }).then(res => {
+                localStorage.setItem("username", this.state.username);
+                localStorage.setItem("token", res.data.Authorization);
+                this.props.history.push('/courses-list')
+            }).catch(err => {
+                console.log(err.response);
+                if (err.response.status == 401) {
+                    alert('Wrong username or password!');
+                }
+                else
+                    alert('An error has occurred!');
+            })
     }
 }
 export default withRouter(Login);

@@ -1,24 +1,34 @@
 import axios from 'axios';
+const tokenProvider = require('axios-token-interceptor');
+
+const instance = axios.create({
+    baseURL: 'http://localhost:51853'
+});
+
+instance.interceptors.request.use(tokenProvider({
+    getToken: () => localStorage.getItem('token')
+}));
+
 
 const getAllTopics = () => {
-    return axios.get(`http://localhost:51853/api/topics`)
+    return instance.get(`/api/topics`)
 }
 
 const getTopic = (id) => {
-    return axios.get(`http://localhost:51853/api/topics/${id}`);
+    return instance.get(`/api/topics/${id}`);
 }
 
 
 const updateTopic = (topic) => {
 
-    return axios.put(`http://localhost:51853/api/topics/${topic.Top_Id}`, topic)
+    return instance.put(`/api/topics/${topic.Top_Id}`, topic)
 }
 
 const addTopic = (topic) => {
-    return axios.post(`http://localhost:51853/api/topics`, topic)
+    return instance.post(`/api/topics`, topic)
 }
 
 const deleteTopic = (id) => {
-    return axios.delete(`http://localhost:51853/api/topics/${id}`)
+    return instance.delete(`/api/topics/${id}`)
 }
 export { getAllTopics, updateTopic, deleteTopic, getTopic, addTopic }
